@@ -1,5 +1,9 @@
 """Calibrate individual interferograms to get a spectrum based on only that one"""
 
+"""
+Issue with this code is that the HBB and CBB are not generic 
+"""
+
 import calibration_functions_sanjee as cal
 import calibration_functions_chris as cal2
 import matplotlib.pyplot as plt
