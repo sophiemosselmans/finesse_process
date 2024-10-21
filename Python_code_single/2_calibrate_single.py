@@ -16,7 +16,7 @@ import numpy as np
 # # RUN NAME is the string at the end of the folder
 # RUN_NAME = "Measurement"
 # GUI_DATA_LOCATION =PATH+ f"sand_emissivity1_20240620_081952.csv"
-# gui_data = cal.load_gui(GUI_DATA_LOCATION)
+
 
 # # The INDIVIDUAL_SPECTRUM_SAVE_LOCATION will be created if it does not already exist
 # INDIVIDUAL_SPECTRUM_SAVE_LOCATION = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/individual_spectra/"  # removed directories above current
@@ -26,6 +26,7 @@ INT_LOCATION = PATH+ f"Raw_Data/{DATE}/"
 # RUN NAME is the string at the end of the folder
 RUN_NAME = "zenith_test1"
 GUI_DATA_LOCATION = INT_LOCATION + "clear_sky1-20230220103722.log"
+gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
