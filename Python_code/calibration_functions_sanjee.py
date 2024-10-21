@@ -2372,3 +2372,5 @@ def create_single_wn_wl_plot(
     plt.grid(show_grid)
     plt.title(title)
     return figure
+
+
