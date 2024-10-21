@@ -9,15 +9,16 @@ from matplotlib import pyplot as plt
 import numpy as np
 import calibration_functions_sanjee as cal
 
-# Location and names of files to combine
-PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
-INT_LOCATION = PATH
+DATE = "20230220"
+PATH = '/disk1/Andoya/sp1016/'
+INT_LOCATION = PATH+ f"Raw_Data/{DATE}/"
 # RUN NAME is the string at the end of the folder
-RUN_NAME = "Measurement"
-GUI_DATA_LOCATION = INT_LOCATION + "sand_emissivity1_20240620_081952.csv"
+RUN_NAME = "zenith_test1"
+GUI_DATA_LOCATION = INT_LOCATION + "clear_sky1-20230220103722.log"
 
+PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
-INDIVIDUAL_SAVE_LOCATION = PATH+f"PROCESSED_EXAMPLE/Processed_Data/prepared_individual_ints/"
+INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_new/prepared_individual_ints/"
 Path(INDIVIDUAL_SAVE_LOCATION).mkdir(parents=True, exist_ok=True)
 
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
@@ -28,11 +29,11 @@ FOLDERS.sort()
 ints: list = []
 n: list = []
 centre_place: list = []
+run = 0 
 
 for FOLDER in FOLDERS:
-    print(FOLDER)
+    print("HERE is folder:", FOLDER)
     times: list = []
-
     Path(INDIVIDUAL_SAVE_LOCATION+FOLDER[len(INT_LOCATION):]).mkdir(parents=True, exist_ok=True)
 
     int_temp, start_end_temp, n_temp, centre_place_temp = cal.average_ints_in_folder_return_individuals(
@@ -52,6 +53,7 @@ for FOLDER in FOLDERS:
 
     for i, interferogram in enumerate(ints):
         cal.update_figure(1)
+        run_track = run + 1
 
         gui_index_start = gui_data["time"].sub(times[i]-1).abs().idxmin()
         gui_index_end = gui_data["time"].sub(times[i]+1).abs().idxmin()
@@ -80,3 +82,6 @@ for FOLDER in FOLDERS:
         )
         fig1.savefig(INDIVIDUAL_SAVE_LOCATION +FOLDER[len(INT_LOCATION):]+ "int_%.0f.png" % times[i])
         plt.close(fig1)
+        print("Figure saved to:", INDIVIDUAL_SAVE_LOCATION +FOLDER[len(INT_LOCATION):]+ "int_%.0f.png" % times[i])
+        print("END OF RUN NUMBER", run_track)
+        # raise(KeyboardInterrupt)
