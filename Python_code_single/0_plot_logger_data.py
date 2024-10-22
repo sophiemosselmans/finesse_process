@@ -5,14 +5,25 @@ Plot data from the GUI logger and vaisala instumentation
 from matplotlib import pyplot as plt
 import calibration_functions_sanjee as cal
 
+# DATE = "20230220"
+# PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
+# DATA_LOCATION = PATH+f""
+# PTH_CO2_DATA_LOCATION = DATA_LOCATION
+# GUI_DATA_LOCATION = DATA_LOCATION + "sand_emissivity1_20240620_081952.csv"
+# PTH_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "PTH_1638_FINAL.txt"
+# CO2_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "CO2_1639_FINAL.txt"
+# SAVE_LOACTION = PATH+f"Processed_Data/"
+
 DATE = "20230220"
-PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
-DATA_LOCATION = PATH+f""
-PTH_CO2_DATA_LOCATION = DATA_LOCATION
-GUI_DATA_LOCATION = DATA_LOCATION + "sand_emissivity1_20240620_081952.csv"
-PTH_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "PTH_1638_FINAL.txt"
-CO2_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "CO2_1639_FINAL.txt"
-SAVE_LOACTION = PATH+f"Processed_Data/"
+PATH = '/disk1/Andoya/sp1016/'
+
+DATA_LOCATION = PATH+f"Raw_Data/{DATE}/"
+GUI_DATA_LOCATION = DATA_LOCATION + "clear_sky1-20230220103722.log"
+PTH_DATA_LOCATION = DATA_LOCATION + "PTH_all.txt"
+CO2_DATA_LOCATION = DATA_LOCATION + "CO2_all.txt"
+
+PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
+SAVE_LOACTION = PATH2+f"Processed_Data_soph/{DATE}/"
 
 if DATE == "20230217":
     time_lims = [20000, 48000]  # 20230217
@@ -22,12 +33,13 @@ elif DATE == "20230221":
     time_lims = [50000, 80000]  # 20230221
 elif DATE == "20230222":
     time_lims = [17500, 35000]  # 20230222
-
-time_lims=[52106,59781]
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
-print(gui_data)
+print("DATA LOCTAION HERE:", PTH_DATA_LOCATION)
 pth_time, pth_pressure, pth_temp, pth_humidity = cal.load_pth(
     PTH_DATA_LOCATION)
+
+
+
 
 cal.update_figure(5, [8, 7])
 axes_labels = ["(a)", "(b)", "(c)", "(d)"]

@@ -25,6 +25,7 @@ elif DATE == "20230221":
 elif DATE == "20230222":
     time_lims = [17500, 35000]  # 20230222
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
+print("DATA LOCTAION HERE:", PTH_DATA_LOCATION)
 pth_time, pth_pressure, pth_temp, pth_humidity = cal.load_pth(
     PTH_DATA_LOCATION)
 

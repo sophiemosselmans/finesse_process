@@ -20,7 +20,7 @@ PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
 INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_new/prepared_individual_ints/"
 Path(INDIVIDUAL_SAVE_LOCATION).mkdir(parents=True, exist_ok=True)
-
+SAVE_LOACTION = PATH2+f"Processed_Data/"
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
 FOLDERS = glob(INT_LOCATION + "*" + RUN_NAME + "/")

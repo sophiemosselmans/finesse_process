@@ -12,14 +12,22 @@ import numpy as np
 import calibration_functions_sanjee as cal
 from math import floor
 
-PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
-DATA_LOCATION = PATH
-SAVE_LOACTION = PATH+f"Processed_Data/"
+# PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
+DATE = "20230220"
+PATH = '/disk1/Andoya/sp1016/'
 
-AVERAGED_INT_LOCATION = SAVE_LOACTION \
-    + "prepared_ints/"
+INT_LOCATION = PATH+ f"Raw_Data/{DATE}/"
 RESPONSE_FUNCTION_LOCATION = SAVE_LOACTION \
     + "response_functions/"
+
+# RUN NAME is the string at the end of the folder
+RUN_NAME = "zenith_test1"
+GUI_DATA_LOCATION = INT_LOCATION + "clear_sky1-20230220103722.log"
+gui_data = cal.load_gui(GUI_DATA_LOCATION)
+
+PATH2 = '/disk1/sm4219/GIT/'
+# The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
+INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_new/prepared_individual_ints/"
 GUI_DATA_LOCATION = DATA_LOCATION + "sand_emissivity1_20240620_081952.csv"
 Path(RESPONSE_FUNCTION_LOCATION).mkdir(parents=True, exist_ok=True)
 

@@ -32,27 +32,27 @@ RUN_NAME = "zenith_test1"
 GUI_DATA_LOCATION = INT_LOCATION + "clear_sky1-20230220103722.log"
 gui_data = cal.load_gui(GUI_DATA_LOCATION)
 
-PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
+PATH2 = '/disk1/sm4219/GIT/'
 # The INDIVIDUAL_SAVE_LOCATION will be created if it does not already exist
 INDIVIDUAL_SAVE_LOCATION = PATH2+f"Processed_Data_new/prepared_individual_ints/"
 Path(INDIVIDUAL_SAVE_LOCATION).mkdir(parents=True, exist_ok=True)
-
+INDIVIDUAL_SPECTRUM_SAVE_LOCATION = PATH2+ f"PROCESSED_EXAMPLE/Processed_Data/individual_spectra/"
 # paths to average HBB and CBB
-HBB_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_ints/int_59340.txt"
-CBB_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_ints/int_59403.txt"
+# HBB_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_ints/int_59340.txt"
+# CBB_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_ints/int_59403.txt"
 
-# path to folder containing individual HBB and CBB interferograms
-HBB_INT_PATH =PATH+  f"PROCESSED_EXAMPLE/Processed_Data/prepared_individual_ints/(2024_06_20_16_28_57)_Measurement/"
-CBB_INT_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_individual_ints/(2024_06_20_16_30_00)_Measurement/"
+# # path to folder containing individual HBB and CBB interferograms
+# HBB_INT_PATH =PATH+  f"PROCESSED_EXAMPLE/Processed_Data/prepared_individual_ints/(2024_06_20_16_28_57)_Measurement/"
+# CBB_INT_PATH = PATH+ f"PROCESSED_EXAMPLE/Processed_Data/prepared_individual_ints/(2024_06_20_16_30_00)_Measurement/"
 
 FOLDERS = glob(INT_LOCATION + "*" + RUN_NAME + "/")
 FOLDERS.sort()
 
-# retrieve the relevant HBB and CBB files from the folder
-HBBs = glob(HBB_INT_PATH + "*.txt")
-HBBs.sort()
-CBBs = glob(CBB_INT_PATH + "*.txt")
-CBBs.sort()
+# # retrieve the relevant HBB and CBB files from the folder
+# HBBs = glob(HBB_INT_PATH + "*.txt")
+# HBBs.sort()
+# CBBs = glob(CBB_INT_PATH + "*.txt")
+# CBBs.sort()
 
 OPD = 1.21
 OUTPUT_FREQUENCY = 0.0605 / OPD
@@ -84,13 +84,43 @@ for FOLDER in FOLDERS_EXAMINING:  # folders 2, 3 are 50ยบ; folders 4, 5 are 130ย
     # Load interferograms and get HBB and CBB temps
 
     # get HBB and CBB average interferograms (used for calibration)
-    hbb_int, hbb_time, hbb_angle = cal.load_averaged_int(HBB_PATH)
-    cbb_int, cbb_time, cbb_angle = cal.load_averaged_int(CBB_PATH)
+    # hbb_int, hbb_time, hbb_angle = cal.load_averaged_int(HBB_PATH)
+    # cbb_int, cbb_time, cbb_angle = cal.load_averaged_int(CBB_PATH)
+
+    "SM ADDING CODE IN HERE"
+    # FIND INDICIES OF CAL VIEWS
+    cal_sequence = [270, 225]
+    cal_locations = [i for i in range(len(angles))
+        if angles[i:i+len(cal_sequence)] == cal_sequence]
+
+    RESP_NUMBER = len(cal_locations)
+    print("Number of response functions: ", RESP_NUMBER)
+
+    # cal.update_figure(1, size=(15, 15/1.68))
+    for i, index in enumerate(cal_locations):
+        print("Response %i of %i" % (i + 1, RESP_NUMBER))
+        hbb_int = ints[index]
+        cbb_int = ints[index+1]
+        HBB = HBB_temps[index]
+        CBB = CBB_temps[index+1]
+        HBB_error = HBB_std[index]
+        CBB_error = CBB_std[index + 1]
+        HBB_angle = angles[index]
+        CBB_angle = angles[index + 1]
+        hbb_time = times[index]
+        cbb_time = times[index + 1]
+        print("HBB_angle: ", HBB_angle)
+        print("HBB temp: ", HBB)
+        print("CBB_angle: ", CBB_angle)
+        print("CBB temp: ", CBB, "\n")
+
 
     for i, name in enumerate(int_list):
         # as in 3a_calibrate_spectra_in_cycles, get interferogram data
         if i % 5 == 0:
             print("Loading %i of %i" % (i, total_ints))
+        
+        print("NAME HERE:",name)
         inter_temp, times_temp, angle_temp = cal2.load_single_int(
             name)  # using the function for averaged interferograms, but passing a single (not averaged) interferogram into it
        
