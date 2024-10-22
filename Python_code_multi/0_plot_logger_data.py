@@ -1,5 +1,7 @@
 """
 Plot data from the GUI logger and vaisala instumentation
+
+Note this is for GUI data so it can be used in both single and multi cases
 """
 
 from matplotlib import pyplot as plt
@@ -14,7 +16,7 @@ PTH_DATA_LOCATION = DATA_LOCATION + "PTH_all.txt"
 CO2_DATA_LOCATION = DATA_LOCATION + "CO2_all.txt"
 
 PATH2 = '/disk1/sm4219/GIT/FINESSE_CAL/'
-SAVE_LOACTION = PATH2+f"Processed_Data_soph/{DATE}/"
+SAVE_LOACTION = PATH2+f"Processed_Data_soph_single/{DATE}/"
 
 if DATE == "20230217":
     time_lims = [20000, 48000]  # 20230217
@@ -28,6 +30,7 @@ gui_data = cal.load_gui(GUI_DATA_LOCATION)
 print("DATA LOCTAION HERE:", PTH_DATA_LOCATION)
 pth_time, pth_pressure, pth_temp, pth_humidity = cal.load_pth(
     PTH_DATA_LOCATION)
+
 
 cal.update_figure(5, [8, 7])
 axes_labels = ["(a)", "(b)", "(c)", "(d)"]

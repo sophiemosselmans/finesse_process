@@ -3,6 +3,9 @@ Calculate the response function for a set of
 averaged interferograms.
 n.b. at the moment this assumes an OPD of 1.8cm
 and a boxcar apodisation function
+
+THIS CODE is for the multi case and is working
+
 """
 
 from glob import glob
@@ -59,11 +62,12 @@ for i, name in enumerate(int_list[:total_ints]):
     CBB_std.append(CBB_std_temp)
 
 print("Interferograms loaded")
-
 # FIND INDICIES OF CAL VIEWS
 cal_sequence = [270, 225]
 cal_locations = [i for i in range(len(angles))
     if angles[i:i+len(cal_sequence)] == cal_sequence]
+
+print(angles, len(angles))
 
 RESP_NUMBER = len(cal_locations)
 print("Number of response functions: ", RESP_NUMBER)

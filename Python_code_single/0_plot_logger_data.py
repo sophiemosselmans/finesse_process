@@ -1,18 +1,8 @@
 """
 Plot data from the GUI logger and vaisala instumentation
 """
-
 from matplotlib import pyplot as plt
 import calibration_functions_sanjee as cal
-
-# DATE = "20230220"
-# PATH = '/disk1/Andoya/sp1016/FINESSE_CALIB_SAND_EMISS_UROP/MEASUREMENT_FOLDER_FOR_UROP_TEMP/'
-# DATA_LOCATION = PATH+f""
-# PTH_CO2_DATA_LOCATION = DATA_LOCATION
-# GUI_DATA_LOCATION = DATA_LOCATION + "sand_emissivity1_20240620_081952.csv"
-# PTH_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "PTH_1638_FINAL.txt"
-# CO2_DATA_LOCATION = PTH_CO2_DATA_LOCATION + "CO2_1639_FINAL.txt"
-# SAVE_LOACTION = PATH+f"Processed_Data/"
 
 DATE = "20230220"
 PATH = '/disk1/Andoya/sp1016/'
@@ -40,6 +30,7 @@ pth_time, pth_pressure, pth_temp, pth_humidity = cal.load_pth(
 
 
 
+"""
 
 cal.update_figure(5, [8, 7])
 axes_labels = ["(a)", "(b)", "(c)", "(d)"]
@@ -100,3 +91,4 @@ for i, ax in enumerate(axs1.flatten()):
 fig1.tight_layout(pad=2)
 fig1.savefig(SAVE_LOACTION + "Summary.png")
 plt.show()
+"""

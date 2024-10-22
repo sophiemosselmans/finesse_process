@@ -1,5 +1,7 @@
 """
 Functions to help calibration of Bruker spectra
+
+includes both Sanjee's functions and ones written by Chris for single spectra case
 """
 import os
 from glob import glob
@@ -2372,6 +2374,70 @@ def create_single_wn_wl_plot(
     plt.grid(show_grid)
     plt.title(title)
     return figure
+
+
+
+
+def average_ints_in_folder_return_individuals(FOLDER, len_int=0, return_n=True, centre_place=False):
+    """Load all interferograms from a foder created by the Opus software 
+    and return the averaged interferogram and the start and end times of the
+    interferogram
+
+    Args:
+        FOLDER (string): location of folder
+        len_int (int, optional): length of the interferogram, if 0 then the 
+        length of the first interferogram is taken. Defaults to 0.
+        return_n (bool, optional): Return the number of interferograms
+         in the folder. Defaults to True.
+        centre_place (bool, optional): Return the position of the centre burst
+         these should be (pretty much) the same while averaging. Defaults to False.
+
+    Returns:
+        array: averaged interferogram
+        tuple: start and end times for the average interferogram
+        int: if return_n=True: Number of interferograms averaged
+        list: if centre_place=True: List of centre burst locations
+    """
+    ints_names = glob(FOLDER + "/*.0")
+    ints_names.sort()
+    centre_places = []
+    for i, name in enumerate(ints_names):
+        data = np.fromfile(name, np.float32)
+        # print("Int: ", name)
+        centre_point = np.argmax(data[10000:-10000])
+        centre_places.append(centre_point)
+        if i == 0:
+            if len_int == 0:
+                ints = np.empty((len(ints_names), len(data)))
+            else:
+                ints = np.empty((len(ints_names), len_int))
+        if len_int == 0:
+            ints[i, :] = data
+        else:
+            ints[i, :] = data[0:len_int]
+    times_name = glob(FOLDER + "/*ResultSeries.txt")[0]
+    time_strings = np.loadtxt(
+        times_name, dtype="str", delimiter="\t", skiprows=2, usecols=[1], unpack=True,
+    )
+    times = []
+    for time in time_strings:
+        times.append(string_to_seconds_bruker(time))
+    if not all_equal(centre_places):
+        print("Warning, centre burst not in same position when averaging")
+        print(FOLDER)
+        print(centre_places)
+    # average_int = np.average(ints, axis=0) # this line removal is the only difference
+    # start_end = (min(times), max(times))
+    n = len(ints_names)
+    print(times)
+    if return_n and centre_place:
+        return ints, times, n, centre_places
+    elif return_n:
+        return ints, times, n
+    elif centre_place:
+        return ints, times, centre_places
+    else:
+        return ints, times
 
 
 """
